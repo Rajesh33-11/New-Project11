@@ -1,0 +1,57 @@
+```
+pipeline {
+    agent any
+
+    environment {
+        DOCKERHUB_USERNAME = "raja3333"
+        IMAGE_NAME = "carrer"
+        DOCKERHUB_CREDENTIALS = "dockerhub-creds"
+    }
+
+    stages {
+
+        stage('Git Checkout') {
+            steps {
+                git branch: 'main',
+                    url: 'https://github.com/Rajesh33-11/springboot-mongo-docker1.git'
+            }
+        }
+
+        stage('Build Jar') {
+            steps {
+                sh 'mvn clean package'
+            }
+        }
+
+        stage('Docker Login') {
+            steps {
+                withCredentials([usernamePassword(
+                    credentialsId: DOCKERHUB_CREDENTIALS,
+                    usernameVariable: 'DOCKER_USER',
+                    passwordVariable: 'DOCKER_PASS'
+                )]) {
+                    sh 'echo $DOCKER_PASS | docker login -u $DOCKER_USER --password-stdin'
+                }
+            }
+        }
+
+        stage('Docker Build & Push') {
+            steps {
+                sh '''
+                  docker build -t $DOCKERHUB_USERNAME/$IMAGE_NAME:$BUILD_NUMBER .
+                  docker push $DOCKERHUB_USERNAME/$IMAGE_NAME:$BUILD_NUMBER
+                '''
+            }
+        }
+
+        stage('Kubernetes Deployment') {
+            steps {
+                sh '''
+                  sed -i "s/IMAGE_TAG/${BUILD_NUMBER}/g" deployment.yml
+                  kubectl apply -f deployment.yml
+                '''
+            }
+        }
+    }
+}
+```
