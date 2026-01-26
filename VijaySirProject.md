@@ -111,27 +111,11 @@ kops create cluster --name=rajesh33.k8s.local --zones=ap-northeast-3a --control-
 ```
 kops update cluster --name rajesh33.k8s.local --yes --admin
 ```
---------------------------------
-#  create ECR
-**go to AWS console → ECR → Click on create → enter name (eg: rajeshtest) → click on create**
-<img width="1912" height="772" alt="image" src="https://github.com/user-attachments/assets/3011f9d9-6ddd-48ff-8999-7436aa61d39f" />
-
------------------------------------
-# I want create Sonarcube container
-```
-docker run -itd --name  con1 -p 9000:9000 sonarqube:8.7-community
-```
-<img width="1762" height="450" alt="image" src="https://github.com/user-attachments/assets/68879062-7e3c-4242-9c19-092f9618ee39" />
-
-# Access Sonarcube container
-```
-Public_ip:9000
-```
-<img width="1908" height="998" alt="image" src="https://github.com/user-attachments/assets/2edc4416-2bd0-46a5-86c8-1d6d67500542" />
-Defualt - User_name: admin, Password: admin
-<img width="1918" height="967" alt="image" src="https://github.com/user-attachments/assets/b1eb5ab9-a29a-421f-9ab0-2b4aefc1844b" />
+-------------------------------
 
 --------------------------------
+<img width="1912" height="980" alt="image" src="https://github.com/user-attachments/assets/87d5f46b-26e9-4940-9139-8d3878884425" />
+
 # Create a pipeline Clone the website files from GitHub to the server.
 ```
 pipeline {
@@ -141,7 +125,7 @@ pipeline {
         stage("Git Checkout") {
             steps {
                 git branch: 'main',
-                    url: 'https://github.com/Rajesh33-11/char-webapp33.git'
+                    url: 'https://github.com/vijay2181/springboot-mongo-docker'
             }
         }
     }
