@@ -39,7 +39,8 @@ sh jenkins.sh
 ```
 apt install docker.io -y
 ```
-<img width="1565" height="519" alt="image" src="https://github.com/user-attachments/assets/a66f9c6b-cb7f-4c55-9581-af633e8b0d1d" />
+<img width="1603" height="598" alt="image" src="https://github.com/user-attachments/assets/3aebae5e-e694-41b1-937d-18830e30d134" />
+
 
 ------------------------------
 # Setup a cluster
@@ -58,7 +59,8 @@ sudo install -o root -g root -m 0755 kubectl /usr/local/bin/kubectl
 # Verify installation
 kubectl version --client
 ```
-<img width="1508" height="570" alt="image" src="https://github.com/user-attachments/assets/ac8bf054-2c2d-461d-9e82-7a3a606c99f4" />
+<img width="1422" height="597" alt="image" src="https://github.com/user-attachments/assets/eb3567d8-e1db-4e3c-a3c2-7ced476b5a97" />
+
 
 ### Installing kops
 ```
@@ -74,7 +76,8 @@ sudo mv kops-linux-amd64 /usr/local/bin/kops
 # Verify installation
 kops version
 ```
-<img width="1862" height="465" alt="image" src="https://github.com/user-attachments/assets/0e4eaac3-f207-4155-9785-8119dee24dbb" />
+<img width="1910" height="492" alt="image" src="https://github.com/user-attachments/assets/7aa268a5-9371-4b3a-83bb-8ea541206594" />
+
 
 ### Installing AWS CLI
 ```
@@ -84,7 +87,8 @@ curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip
 unzip awscliv2.zip
 sudo ./aws/install
 ```
-<img width="925" height="187" alt="image" src="https://github.com/user-attachments/assets/a0165246-d423-443c-a899-40284fe96b02" />
+<img width="1040" height="268" alt="image" src="https://github.com/user-attachments/assets/7c795148-fcae-4016-a03a-a85de0e0b667" />
+
 
 ------------------------------
 # Create S3 bucket for kOps state store
@@ -93,14 +97,15 @@ aws s3 mb s3://55rajesh.k8s.locals
 aws s3api put-bucket-versioning --bucket 55rajesh.k8s.locals --region ap-south-1 --versioning-configuration Status=Enabled
 export KOPS_STATE_STORE=s3://55rajesh.k8s.locals
 ```
-<img width="1486" height="201" alt="image" src="https://github.com/user-attachments/assets/a2e9aa0d-9582-4dd1-b936-be6f88109ef5" />
+<img width="1437" height="172" alt="image" src="https://github.com/user-attachments/assets/06b173c7-06b9-428c-9681-e3380f5ca627" />
+
 
 --------------------------------
 # This command creates a Kubernetes cluster configuration using kOps on AWS
 ```
-kops create cluster --name=rajesh33.k8s.local --zones=ap-northeast-3a --control-plane-size=m7i-flex.large --control-plane-count=1 --node-count=2 --node-size=t3.micro --image=ami-06571d6ae17e327ff
+kops create cluster --name=rajesh33.k8s.local --zones=ap-northeast-3a --control-plane-size=m7i-flex.large --control-plane-count=1 --node-count=2 --node-size=t3.micro --image=ami-0ef44b9f9f20f3e57
 ```
-<img width="1867" height="537" alt="image" src="https://github.com/user-attachments/assets/c96af9e9-b7c2-45bf-b633-abed61ed36aa" />
+<img width="1892" height="516" alt="image" src="https://github.com/user-attachments/assets/8836d207-cbe5-425a-995d-dde76c136531" />
 
 # update cluster
 ```
