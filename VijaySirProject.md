@@ -1,5 +1,8 @@
 # Git → Maven → Jenkins → Docker → DockerHub → K8S Cluster
 ------------------------------------------------
+<img width="1024" height="610" alt="image" src="https://github.com/user-attachments/assets/e5484acd-5334-43ef-bd36-e2fa9fe19bae" />
+
+-------------------------------------------------
 ## Rerequirements:
 #### -CREATE EC2 USING UBUNTU WITH 30 GB EBS AND INSTANCE_TYPE BE M7I-FLUX.LARGE(Eg: 8 CPUS, 32GB RAM),
 #### -CREATE IAM ROLE WITH ADMIN ACCESS ADD THE ROLE TO YOUR  EC2 SERVER
