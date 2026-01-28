@@ -41,7 +41,7 @@ sh jenkins.sh
 ```
 apt install docker.io -y
 ```
-<img width="1603" height="598" alt="image" src="https://github.com/user-attachments/assets/3aebae5e-e694-41b1-937d-18830e30d134" />
+<img width="1123" height="492" alt="image" src="https://github.com/user-attachments/assets/a9e99ec6-f630-4344-8328-1ee6c5f373a6" />
 
 
 ------------------------------
@@ -61,7 +61,8 @@ sudo install -o root -g root -m 0755 kubectl /usr/local/bin/kubectl
 # Verify installation
 kubectl version --client
 ```
-<img width="1422" height="597" alt="image" src="https://github.com/user-attachments/assets/eb3567d8-e1db-4e3c-a3c2-7ced476b5a97" />
+<img width="1472" height="596" alt="image" src="https://github.com/user-attachments/assets/7920c137-243c-4ec9-8092-1bffe67661ce" />
+
 
 
 ### Installing kops
@@ -78,7 +79,8 @@ sudo mv kops-linux-amd64 /usr/local/bin/kops
 # Verify installation
 kops version
 ```
-<img width="1910" height="492" alt="image" src="https://github.com/user-attachments/assets/7aa268a5-9371-4b3a-83bb-8ea541206594" />
+<img width="1897" height="450" alt="image" src="https://github.com/user-attachments/assets/c7696798-2a3a-462a-86a0-9535303a0776" />
+
 
 
 ### Installing AWS CLI
@@ -89,7 +91,7 @@ curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip
 unzip awscliv2.zip
 sudo ./aws/install
 ```
-<img width="1040" height="268" alt="image" src="https://github.com/user-attachments/assets/7c795148-fcae-4016-a03a-a85de0e0b667" />
+<img width="1167" height="273" alt="image" src="https://github.com/user-attachments/assets/44b47c05-65c0-46c7-b283-0f628e5d8151" />
 
 
 ------------------------------
@@ -99,24 +101,24 @@ aws s3 mb s3://55rajesh.k8s.locals
 aws s3api put-bucket-versioning --bucket 55rajesh.k8s.locals --region ap-south-1 --versioning-configuration Status=Enabled
 export KOPS_STATE_STORE=s3://55rajesh.k8s.locals
 ```
-<img width="1437" height="172" alt="image" src="https://github.com/user-attachments/assets/06b173c7-06b9-428c-9681-e3380f5ca627" />
-
+<img width="1457" height="212" alt="image" src="https://github.com/user-attachments/assets/74f5b301-79db-433c-afd1-10d9ae58a687" />
 
 --------------------------------
 # This command creates a Kubernetes cluster configuration using kOps on AWS
 ```
-kops create cluster --name=rajesh33.k8s.local --zones=ap-northeast-3a --control-plane-size=m7i-flex.large --control-plane-count=1 --node-count=2 --node-size=t3.micro --image=ami-0ef44b9f9f20f3e57
+kops create cluster --name=rajesh44.k8s.local --zones=ap-northeast-2a --control-plane-size=m7i-flex.large --control-plane-count=1 --node-count=2 --node-size=t3.micro --image=ami-0092e0c93f74c293a
 ```
-<img width="1892" height="516" alt="image" src="https://github.com/user-attachments/assets/8836d207-cbe5-425a-995d-dde76c136531" />
+<img width="1944" height="163" alt="image" src="https://github.com/user-attachments/assets/f45a53a8-f62d-4d3b-be1e-edc56bfbd344" />
 
 # update cluster
 ```
 kops update cluster --name rajesh33.k8s.local --yes --admin
 ```
--------------------------------
+<img width="1310" height="252" alt="image" src="https://github.com/user-attachments/assets/ba1219b7-59af-4359-bcbe-ba0ad3a2d2a8" />
 
---------------------------------
-<img width="1912" height="980" alt="image" src="https://github.com/user-attachments/assets/87d5f46b-26e9-4940-9139-8d3878884425" />
+-------------------------------
+<img width="883" height="121" alt="image" src="https://github.com/user-attachments/assets/f600218d-4ab1-4243-9781-cc8515c2b5ff" />
+
 
 # Create a pipeline Clone the website files from GitHub to the server.
 ```
@@ -183,6 +185,8 @@ Now Enter credentials Global Level in Jenkins
 <img width="1901" height="907" alt="image" src="https://github.com/user-attachments/assets/05c5a5ac-f7f2-4bb0-8808-51c6f2208770" />
 
 -------------------------
+<img width="750" height="213" alt="image" src="https://github.com/user-attachments/assets/d1ee78a3-7563-4039-a60c-57d6c2158e0b" />
+
 Now give permissions in Server
 ```
 chmod 777 /var/run/docker.sock
@@ -214,4 +218,12 @@ sudo -u jenkins kubectl get nodes
 
 **Output shows:**
 STATUS: Ready
+<img width="1097" height="337" alt="image" src="https://github.com/user-attachments/assets/d8af0d33-dd45-41b1-8386-a4fdb4eb3285" />
+<img width="1912" height="982" alt="image" src="https://github.com/user-attachments/assets/6de860a6-9b2e-4304-a15c-2214c7e222a8" />
+<img width="1587" height="192" alt="image" src="https://github.com/user-attachments/assets/6f863ad4-dea4-414f-bfec-fdaec934940a" />
+<img width="1918" height="912" alt="image" src="https://github.com/user-attachments/assets/da77b2e8-706a-4f2f-935b-30271a636917" />
+<img width="1918" height="1008" alt="image" src="https://github.com/user-attachments/assets/c3a83775-f36a-447f-a5c9-0854e145c662" />
+
+
+
 
