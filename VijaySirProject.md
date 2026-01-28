@@ -124,143 +124,49 @@ kops update cluster --name rajesh33.k8s.local --yes --admin
 pipeline {
     agent any
 
-    stages {
-        stage("Git Checkout") {
-            steps {
-                git branch: 'main',
-                    url: 'https://github.com/vijay2181/springboot-mongo-docker'
-            }
-        }
-    }
-}
-
-```
-Now build and verify in Server for files
-<img width="1913" height="1002" alt="image" src="https://github.com/user-attachments/assets/4356ab96-fd6a-4d19-a2da-ea76ab8d2bc6" />
-<img width="1120" height="171" alt="image" src="https://github.com/user-attachments/assets/ba4f9bbd-2c92-4027-adca-a3946aeb2bb4" />
-# Now integrate SonarQube
-install SonarQube Scanner plugin in jenkins
-<img width="1911" height="557" alt="image" src="https://github.com/user-attachments/assets/6bf0098c-1fab-4982-ab56-544be91ca603" />
-### Passes SonarQube creditanials in Jenkins
-**Click on New Project**
-<img width="1915" height="922" alt="image" src="https://github.com/user-attachments/assets/954da042-f3dc-480b-9b3d-116e07769ed3" />
-**Click on Manually**
-<img width="1917" height="896" alt="image" src="https://github.com/user-attachments/assets/b6e39bdf-66f8-4e6a-a37a-76845b53ea3d" />
-****Enter Project name (eg: maven project)** and click on setup**
-<img width="1902" height="725" alt="image" src="https://github.com/user-attachments/assets/26e6416e-36e0-4134-971a-9b78b47dbb5a" />
-**Enter name and genarate tocken**
-<img width="1852" height="841" alt="image" src="https://github.com/user-attachments/assets/1765516e-f884-4fd8-826c-5fa61531f24b" />
-**Copy the Tocken and go to jenikins → creditanials → click on global → Click on adding some creditanials**
-<img width="1892" height="767" alt="image" src="https://github.com/user-attachments/assets/f039d598-2c3e-41dc-99cd-c722150b9860" />
-<img width="1917" height="975" alt="image" src="https://github.com/user-attachments/assets/be5e4932-f9ff-4518-af3f-cc39a4ef30f0" />
-**Now enable Sonar Qube in Jenikins**
-Manage Jenikins → system → SonarQube Servers
-<img width="1665" height="366" alt="image" src="https://github.com/user-attachments/assets/7ff596f2-0c5c-4168-a7c8-4503da45690d" />
-**Click on Add sonar Qube**
-Enter name , SonarQube_URl and select Auth_token, click on SAVE
-<img width="1712" height="717" alt="image" src="https://github.com/user-attachments/assets/44cdf200-96a8-46d8-9370-35c8f8c18b17" />
-**go to SonarQube click on Continue**
-<img width="1915" height="768" alt="image" src="https://github.com/user-attachments/assets/61d65583-e79e-4157-9100-96e813b6ded1" />
-**Click on Maven and Copy the commands**
-<img width="1886" height="930" alt="image" src="https://github.com/user-attachments/assets/77ba964c-7d87-4c76-b2b9-7a661f53c18d" />
-**Create a pipeline**
-```
-pipeline {
-    agent any
-
-    stages {
-        stage("Git Checkout") {
-            steps {
-                git branch: 'main',
-                    url: 'https://github.com/Rajesh33-11/char-webapp33.git'
-            }
-        }
-
-        stage("Sonar_Scan") {
-            steps {
-                sh 'sh sonar.sh'
-            }
-        }
-    }
-}
-
-```
-
-<img width="1918" height="906" alt="image" src="https://github.com/user-attachments/assets/eaebccb9-b9ed-4586-a5a1-66bdd2a929b4" />
-
-**Now configure the Maven**
-Manage Jenikins → Tools → Maven installations → AddMaven → enter name(eg-my maven) → OK
-<img width="1735" height="773" alt="image" src="https://github.com/user-attachments/assets/7293b47c-19c8-4441-a2b3-1da7ad824dfb" />
-```
-pipeline {
-    agent any
-
-    tools {
-        maven "mymaven"
-    }
-
     environment {
-        AWS_REGION = "us-west-1"
-        ECR_REGISTRY = "978163710174.dkr.ecr.us-west-1.amazonaws.com"
-        IMAGE_NAME = "rajeshtest"
+        DOCKERHUB_USERNAME = "raja3333"
+        IMAGE_NAME = "carrer"
+        DOCKERHUB_CREDENTIALS = "dockerhub-creds"
     }
 
     stages {
 
-        stage("Git Checkout") {
+        stage('Git Checkout') {
             steps {
                 git branch: 'main',
-                    url: 'https://github.com/Rajesh33-11/char-webapp33.git'
+                    url: 'https://github.com/Rajesh33-11/springboot-mongo-docker.git'
             }
         }
 
-        stage("Sonar Scan") {
+        stage('Build Jar') {
             steps {
-                sh 'sh sonar.sh'
+                sh 'mvn clean package'
             }
         }
 
-        stage("Build with Maven") {
+        stage('Docker Login') {
             steps {
-                sh 'mvn clean install'
+                withCredentials([usernamePassword(
+                    credentialsId: DOCKERHUB_CREDENTIALS,
+                    usernameVariable: 'DOCKER_USER',
+                    passwordVariable: 'DOCKER_PASS'
+                )]) {
+                    sh 'echo $DOCKER_PASS | docker login -u $DOCKER_USER --password-stdin'
+                }
             }
         }
 
-        stage("ECR Login") {
+        stage('Docker Build & Push') {
             steps {
                 sh '''
-                  aws ecr get-login-password --region $AWS_REGION \
-                  | docker login --username AWS --password-stdin $ECR_REGISTRY
+                  docker build -t $DOCKERHUB_USERNAME/$IMAGE_NAME:$BUILD_NUMBER .
+                  docker push $DOCKERHUB_USERNAME/$IMAGE_NAME:$BUILD_NUMBER
                 '''
             }
         }
 
-        stage("Docker Image Build") {
-            steps {
-                sh '''
-                  docker build -t $IMAGE_NAME:${BUILD_NUMBER} .
-                '''
-            }
-        }
-
-        stage("Docker Tag") {
-            steps {
-                sh '''
-                  docker tag $IMAGE_NAME:${BUILD_NUMBER} \
-                  $ECR_REGISTRY/$IMAGE_NAME:${BUILD_NUMBER}
-                '''
-            }
-        }
-
-        stage("Docker Push") {
-            steps {
-                sh '''
-                  docker push $ECR_REGISTRY/$IMAGE_NAME:${BUILD_NUMBER}
-                '''
-            }
-        }
-
-        stage("Kubernetes Deployment") {
+        stage('Kubernetes Deployment') {
             steps {
                 sh '''
                   sed -i "s/IMAGE_TAG/${BUILD_NUMBER}/g" deployment.yml
@@ -271,20 +177,14 @@ pipeline {
     }
 }
 
+```
+Now install Stage View Plugin
+<img width="1516" height="360" alt="image" src="https://github.com/user-attachments/assets/0f34e814-0a79-48b7-bf17-e627e524aabc" />
+Now Enter credentials Global Level in Jenkins
+<img width="1901" height="907" alt="image" src="https://github.com/user-attachments/assets/05c5a5ac-f7f2-4bb0-8808-51c6f2208770" />
 
-```
-Now Pass Creditionals in Jenikins
-```
-su - jenkins
-```
-```
-aws configure
-```
-<img width="1201" height="396" alt="image" src="https://github.com/user-attachments/assets/49e89fec-d0cf-47ca-a901-ba6e718d4fb4" />
-
-```
-exit
-```
+-------------------------
+Now give permissions in Server
 ```
 chmod 777 /var/run/docker.sock
 ```
